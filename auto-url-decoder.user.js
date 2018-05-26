@@ -5,7 +5,7 @@
 // @description:ru Декодирует все найденные на странице ссылки, похожие на "%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82%20%D0%BC%D0%B8%D1%80", в удобочитаемое "привет мир"
 // @description:en It decodes all cyrillic links on current page.
 // @match *://*/*
-// @version 1.1
+// @version 1.1.1
 // @run-at document-end
 // @license GPLv3
 // @updateURL https://greasyfork.org/scripts/40305-automatic-url-decodeder/code/Automatic%20URL%20Decodeder.user.js
@@ -23,7 +23,9 @@ let underlineStyle = new Map([["border-bottom","2px solid currentColor"], ["marg
 let changedLinkStyle = null;
 
 let obs = new MutationObserver((changes, obs) => {
+  obs.disconnect();
   changes.forEach((change) => change.addedNodes.forEach((node) => fixLinks(node)) );
+  obs.observe(document.body, obsOptions);
 });
 obs.observe(document.body, obsOptions);
 
@@ -51,7 +53,6 @@ function replaceAndStyleLink(node) {
   let offset = 0;
   let sibling = node;
   let content = node.textContent;
-  obs.disconnect();
   while ((match = linkEreg.exec(content)) != null) {
     let fullMatch = match[0];
     let decoded = decodeURIComponent(fullMatch);
@@ -74,7 +75,6 @@ function replaceAndStyleLink(node) {
         break;
     }
   }
-  obs.observe(document.body, obsOptions);
 }
 
 function getNextTextSibling(node) {
