@@ -27,7 +27,6 @@ let obs = new MutationObserver((changes, obs) => {
   changes.forEach((change) => change.addedNodes.forEach((node) => fixLinks(node)) );
   obs.observe(document.body, obsOptions);
 });
-obs.observe(document.body, obsOptions);
 
 function fixLinks(node) {
   if (node.tagName != 'SCRIPT' && node.nodeType === 3) {
@@ -89,3 +88,4 @@ function getNextTextSibling(node) {
 }
 
 fixLinks(document.body);
+obs.observe(document.body, obsOptions);
