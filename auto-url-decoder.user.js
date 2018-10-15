@@ -13,6 +13,7 @@
 // @homepageURL https://github.com/T1mL3arn/Automatic-URL-Decoder
 // ==/UserScript==
 
+(() => {
   function isElementAllowed(elt) {
     return blockedTagsList.indexOf(elt.tagName) == -1 && elt.matches(blockedClassesSelector);
   }
@@ -95,3 +96,4 @@ function getNextTextSibling(node) {
 
 fixLinks(document.body);
 obs.observe(document.body, obsOptions);
+})();
