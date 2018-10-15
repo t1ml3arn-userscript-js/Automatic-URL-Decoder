@@ -13,6 +13,10 @@
 // @homepageURL https://github.com/T1mL3arn/Automatic-URL-Decoder
 // ==/UserScript==
 
+  function isElementAllowed(elt) {
+    return blockedTagsList.indexOf(elt.tagName) == -1 && elt.matches(blockedClassesSelector);
+  }
+  
   let linkEreg = /(?:[a-z][a-z0-9-+.]+:\/\/|www\.).+?(?=\s|$)/gi;
   let linkEregLocal = /(?:[a-z][a-z0-9-+.]+:\/\/|www\.).+?(?=\s|$)/i;
   let percentEncodingEreg = /%[a-f0-9]{2}/i;
@@ -32,20 +36,19 @@ let obs = new MutationObserver((changes, obs) => {
 });
 
 function fixLinks(node) {
-  if (node.tagName != 'SCRIPT' && node.nodeType === 3) {
+    if (node.nodeType === 3) {
     let content = node.textContent;
-    if (content && content != '') {
-      if (linkEregLocal.test(content)) {
-        if (changedLinkStyle)
-          replaceAndStyleLink(node);
+      if (content != '') {
+        if (linkEregLocal.test(content) && percentEncodingEreg.test(content)) {
+          if (changedLinkStyle) replaceAndStyleLink(node);
         else {
           let decoded = content.replace(linkEreg, decodeURIComponent);
-          if(decoded.length!=content.length)
+            if (decoded.length != content.length)
             node.textContent = decoded;
         }
       }
     }
-  } else if (node.childNodes && node.childNodes.length > 0) {
+    } else if (node.nodeType === 1 && node.childNodes.length > 0 && isElementAllowed(node)) {
     node.childNodes.forEach(fixLinks);
   }
 }
