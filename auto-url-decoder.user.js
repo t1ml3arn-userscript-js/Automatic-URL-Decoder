@@ -13,9 +13,12 @@
 // @homepageURL https://github.com/T1mL3arn/Automatic-URL-Decoder
 // ==/UserScript==
 
-let linkEreg = /(https|http|ftp|file):.+?(?=\s|$)/gi;
-let linkEregLocal = /(https|http|ftp|file):.+?(?=\s|$)/i;
+  let linkEreg = /(?:[a-z][a-z0-9-+.]+:\/\/|www\.).+?(?=\s|$)/gi;
+  let linkEregLocal = /(?:[a-z][a-z0-9-+.]+:\/\/|www\.).+?(?=\s|$)/i;
+  let percentEncodingEreg = /%[a-f0-9]{2}/i;
 let obsOptions = { childList: true, subtree: true };
+  let blockedTagsList = 'NOSCRIPT OPTION SCRIPT STYLE TEXTAREA SVG CANVAS BUTTON SELECT TEMPLATE METER PROGRESS MATH TIME HEAD CODE'.split(' ');
+  let blockedClassesSelector = 'foo bar'.split(' ').map(class_ => `.${class_}`).join(', ');
 
 let underlineStyle = new Map([["border-bottom","2px solid currentColor"], ["margin-bottom", "-2px"]]);
 // set one of style from above to enable 
