@@ -86,10 +86,8 @@ function replaceAndStyleLink(node) {
 function getNextTextSibling(node) {
   let next = node.nextSibling;
   while (next != null) {
-    if (next.nodeType == 3)
-      return next;
-    else
-      next = node.nextSibling;
+      if (next.nodeType == 3) return next;
+      else                    next = node.nextSibling;
   }
   return null;
 }
