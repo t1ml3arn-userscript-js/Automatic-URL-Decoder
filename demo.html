@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>URL decoder demo</title>
+    <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+  <div class="content">
+    <h1>URL decoder demo</h1>
+    
+    <h2>Basic example</h2>
+    <p>URL decoder works for any* types of nodes. Both anchor elements and plain text will be processed: 
+    </p>
+    <ul>
+      <li>www.example.com/%D0%9F%D1%80%D0%B8%D0%B2%D0%B5%D1%82</li>
+      <li><a href="#">www.example.com/%E4%BD%A0%E5%A5%BD</a></li>
+    </ul>
+    <p>* - There are blocked tags and selectors however. URL decoder doesn't processes blocked elements</p>
+    <h3>More examples</h3>
+    <ul>
+      <li><a href="#">www.example.com</a> is not encoded</li>
+      <li>https://en.wikipedia.org/wiki/Percent-encoding also isn't encoded</li>
+      <li><a href="https://ja.wikipedia.org/wiki/%E3%83%91%E3%83%BC%E3%82%BB%E3%83%B3%E3%83%88%E3%82%A8%E3%83%B3%E3%82%B3%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0">https://ja.wikipedia.org/wiki/%E3%83%91%E3%83%BC%E3%82%BB%E3%83%B3%E3%83%88%E3%82%A8%E3%83%B3%E3%82%B3%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0</a> - article about percent-encoding on japan wiki</li>
+      <li><a href="https://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%B8%D0%B2%D0%B5%D1%82,_%D0%BC%D0%B8%D1%80!">https://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%B8%D0%B2%D0%B5%D1%82,_%D0%BC%D0%B8%D1%80!</a> - article about "Hello, World!" programm on russian wiki</li>
+      <li>file:///C:/%D0%BF%D1%80%D0%BE%D1%87%D1%82%D0%B8%20%D0%BC%D0%B5%D0%BD%D1%8F.txt - file sample</li>
+    </ul>
+    
+    <h3>Blocked tags</h3>
+    <p>URL decoder won't be working for several blocked tags and selectors. For example it doesn't work for <code>TEXTAREA</code> elements. See source code to find which elements are blocked.</p>
+    <textarea name="" id="" cols="75" rows="7" spellcheck="false">This is a TEXTAREA element.&#10;None of the urls in this element will be decoded, e.g.&#10;https://example.com/%E4%BD%A0%E5%A5%BD&#10;&#10;</textarea>
+
+    <h3>Dynamic content</h3>
+    <p>If there will be a change on a page, URL decoder will processes that change.</p>
+    <input type="text" class="type-url" name="" id="" placeholder="type any encoded url here">
+    <button class="add-url">Add URL to page</button>
+    <button class="clear-urls">Clear</button>
+    <div class="add-url-target"></div>
+
+    <div hidden>
+  
+      <h2>Syntax highligthing libraries</h2>
+      <p>In general, URL decoder should not be executed for such elements</p>
+  
+      <a href="https://github.com/codemirror/CodeMirror" class="href"><h3>Code Mirror</h3></a>
+      <div>TODO</div>
+  
+      <a href="http://shjs.sourceforge.net/" class="href"><h3>SHJS</h3></a>
+      <div>TODO</div>
+    </div>
+
+    <script src="auto-url-decoder.user.js"></script>
+    <script>
+      let qs = document.querySelector.bind(document);
+      let input = qs('input.type-url');
+      let urlTarget = qs('.add-url-target');
+      let getbr = document.createElement.bind(document, 'br');
+      qs('.add-url').addEventListener('click', e => {
+        if (input.value == '') return;
+        if (urlTarget.querySelectorAll('br').length >= 6) return;
+        urlTarget.appendChild(document.createTextNode(input.value));
+        urlTarget.appendChild(getbr());
+      });
+      qs('.clear-urls').addEventListener('click', e => { urlTarget.innerHTML = ''; input.value = ''; });
+    </script>
+
+  </div>
+</body>
+</html>
