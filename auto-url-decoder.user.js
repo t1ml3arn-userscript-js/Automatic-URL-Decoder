@@ -22,8 +22,7 @@
   let linkEregLocal = /(?:[a-z][a-z0-9-+.]+:\/\/|www\.).+?(?=\s|$)/i;
   let percentEncodingEreg = /%[a-f0-9]{2}/i;
 let obsOptions = { childList: true, subtree: true };
-  let blockedTagsList = 'NOSCRIPT OPTION SCRIPT STYLE TEXTAREA SVG CANVAS BUTTON SELECT TEMPLATE METER PROGRESS MATH TIME HEAD CODE'.split(' ');
-  let blockedClassesSelector = 'foo bar'.split(' ').map(class_ => `.${class_}`).join(', ');
+  let blockedTagsList = 'NOSCRIPT OPTION SCRIPT STYLE TEXTAREA SVG CANVAS BUTTON SELECT TEMPLATE METER PROGRESS MATH TIME HEAD CODE PRE'.split(' ');
 
 let underlineStyle = new Map([["border-bottom","2px solid currentColor"], ["margin-bottom", "-2px"]]);
 // set one of style from above to enable 
