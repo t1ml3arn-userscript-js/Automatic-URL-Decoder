@@ -23,6 +23,10 @@
   let percentEncodingEreg = /%[a-f0-9]{2}/i;
 let obsOptions = { childList: true, subtree: true };
   let blockedTagsList = 'NOSCRIPT OPTION SCRIPT STYLE TEXTAREA SVG CANVAS BUTTON SELECT TEMPLATE METER PROGRESS MATH TIME HEAD CODE PRE'.split(' ');
+  ///NOTE Use 'foo' (or any other dummy class) in this selector
+  // if you need to make this variable "empty"
+  // It allows to avoid  SyntaxError: '' is not a valid selector
+  let blockedClassesSelector = 'foo'.split(' ').map(class_ => `.${class_}`).join(', ');
 
 let underlineStyle = new Map([["border-bottom","2px solid currentColor"], ["margin-bottom", "-2px"]]);
 // set one of style from above to enable 
