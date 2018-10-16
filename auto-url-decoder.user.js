@@ -17,6 +17,7 @@
     return blockedTagsList.indexOf(elt.tagName) == -1 && !elt.matches(blockedClassesSelector);
   }
 
+  const DECODED_ELT_CLASS = 'auto-url-decoder-s739';
   let linkEreg = /(?:[a-z][a-z0-9-+.]+:\/\/|www\.).+?(?=\s|$)/gi;
   let linkEregLocal = /(?:[a-z][a-z0-9-+.]+:\/\/|www\.).+?(?=\s|$)/i;
   let percentEncodingEreg = /%[a-f0-9]{2}/i;
@@ -25,7 +26,7 @@
   ///NOTE Use 'foo' (or any other dummy class) in this selector
   // if you need to make this variable "empty"
   // It allows to avoid  SyntaxError: '' is not a valid selector
-  let blockedClassesSelector = 'foo'.split(' ').map(class_ => `.${class_}`).join(', ');
+  let blockedClassesSelector = `${DECODED_ELT_CLASS}`.split(' ').map(class_ => `.${class_}`).join(', ');
   
   let underlineStyle = new Map([["border-bottom","2px solid currentColor"], ["margin-bottom", "-2px"]]);
   // set one of style from above to enable 
