@@ -8,7 +8,6 @@
 // @version 1.2
 // @run-at document-end
 // @license GPLv3
-// @updateURL https://greasyfork.org/scripts/40305-automatic-url-decodeder/code/Automatic%20URL%20Decodeder.user.js
 // @supportURL https://github.com/T1mL3arn/Automatic-URL-Decoder/issues
 // @homepageURL https://github.com/T1mL3arn/Automatic-URL-Decoder
 // ==/UserScript==
