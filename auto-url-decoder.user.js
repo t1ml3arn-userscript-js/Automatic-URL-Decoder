@@ -3,9 +3,9 @@
 // @namespace https://github.com/T1mL3arn
 // @author T1mL3arn
 // @description:ru Декодирует все найденные на странице ссылки, похожие на "%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82%20%D0%BC%D0%B8%D1%80", в удобочитаемое "привет мир"
-// @description:en It decodes all cyrillic links on current page.
+// @description:en It decodes all percent-decoded links on current page.
 // @match *://*/*
-// @version 1.2
+// @version 2.0
 // @run-at document-end
 // @license GPLv3
 // @supportURL https://github.com/T1mL3arn/Automatic-URL-Decoder/issues
