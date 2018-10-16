@@ -15,7 +15,7 @@
 
 (() => {
   function isElementAllowed(elt) {
-    return blockedTagsList.indexOf(elt.tagName) == -1 && elt.matches(blockedClassesSelector);
+    return blockedTagsList.indexOf(elt.tagName) == -1 && !elt.matches(blockedClassesSelector);
   }
   
   let linkEreg = /(?:[a-z][a-z0-9-+.]+:\/\/|www\.).+?(?=\s|$)/gi;
