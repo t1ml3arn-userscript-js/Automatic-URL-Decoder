@@ -17,6 +17,13 @@
     return blockedTagsList.indexOf(elt.tagName) == -1 && !elt.matches(blockedClassesSelector);
   }
 
+  function addStyle(css) {
+    const id = 'auto-url-decoder-style-elt'; 
+    const style = document.getElementById(id) || document.head.appendChild(document.createElement('style'));
+    style.id = id;
+    style.textContent = css;
+  }
+
   const DECODED_ELT_CLASS = 'auto-url-decoder-s739';
   let linkEreg = /(?:[a-z][a-z0-9-+.]+:\/\/|www\.).+?(?=\s|$)/gi;
   let linkEregLocal = /(?:[a-z][a-z0-9-+.]+:\/\/|www\.).+?(?=\s|$)/i;
@@ -27,11 +34,31 @@
   // if you need to make this variable "empty"
   // It allows to avoid  SyntaxError: '' is not a valid selector
   let blockedClassesSelector = `${DECODED_ELT_CLASS}`.split(' ').map(class_ => `.${class_}`).join(', ');
-  
-  let underlineStyle = new Map([["border-bottom","2px solid currentColor"], ["margin-bottom", "-2px"]]);
+
+  // ----------------------------
+  // CSS
+  function getDefaultBackgroundCSS(color) {
+    return `
+    .${DECODED_ELT_CLASS} {
+      background-color: ${color} !important;
+      padding: 2px 2px !important;
+      margin: 0 -2px !important;
+    }`;
+  }
+
+  const underlineCss = `
+  .${DECODED_ELT_CLASS} {
+    border-bottom: 2px solid currentColor !important;
+    margin-bottom: -2px !important;
+  }`;
+  const greenBackgroundCSS = getDefaultBackgroundCSS('#deffc3');
+  const redBackgroundCSS = getDefaultBackgroundCSS('#fcd7d7');
+  const blueBackgroundCSS = getDefaultBackgroundCSS('#d7ebfc');
   // set one of style from above to enable 
   // custom style for fixed links
-  let changedLinkStyle = null;
+  let decodedNodeCSS = greenBackgroundCSS;
+  // CSS
+  // ----------------------------
   
   let obs = new MutationObserver((changes, obs) => {
     obs.disconnect();
@@ -44,10 +71,10 @@
       let content = node.textContent;
       if (content != '') {
         if (linkEregLocal.test(content) && percentEncodingEreg.test(content)) {
-          if (changedLinkStyle) replaceAndStyleLink(node);
+          if (decodedNodeCSS != null) replaceAndStyleLink(node);
           else {
             try {
-            let decoded = content.replace(linkEreg, decodeURIComponent);
+              let decoded = content.replace(linkEreg, decodeURIComponent);
               if (decoded.length != content.length) node.textContent = decoded;
             } catch (e) {
               // URI mailformed, hust skip it
@@ -78,9 +105,8 @@
 
       if (decoded.length != fullMatch.length) {
         let span = document.createElement('span');
+        span.classList.add(DECODED_ELT_CLASS);
   
-        changedLinkStyle.forEach((val, key) => span.style.setProperty(key, val));
-        
         let range = document.createRange();
         range.setStart(sibling, linkEreg.lastIndex - match[0].length);
         range.setEnd(sibling, linkEreg.lastIndex);
@@ -89,7 +115,7 @@
         content = content.substring(linkEreg.lastIndex);
         span.textContent = decoded;
         linkEreg.lastIndex = 0;
-  
+        
         sibling = getNextTextSibling(span);
         if (sibling == null)  break;
       }
@@ -104,6 +130,8 @@
     }
     return null;
   }
+  
+  if (decodedNodeCSS != null) addStyle(decodedNodeCSS);
   
   fixLinks(document.body);
   obs.observe(document.body, obsOptions);
