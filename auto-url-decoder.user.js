@@ -45,9 +45,12 @@
         if (linkEregLocal.test(content) && percentEncodingEreg.test(content)) {
           if (changedLinkStyle) replaceAndStyleLink(node);
           else {
+            try {
             let decoded = content.replace(linkEreg, decodeURIComponent);
-            if (decoded.length != content.length)
-              node.textContent = decoded;
+              if (decoded.length != content.length) node.textContent = decoded;
+            } catch (e) {
+              // URI mailformed, hust skip it
+            }
           }
         }
       }
