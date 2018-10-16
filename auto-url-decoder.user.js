@@ -66,7 +66,16 @@
     let content = node.textContent;
     while ((match = linkEreg.exec(content)) != null) {
       let fullMatch = match[0];
-      let decoded = decodeURIComponent(fullMatch);
+      let decoded;
+
+      try {
+        decoded = decodeURIComponent(fullMatch);
+      } catch (e) {
+        content = content.substring(linkEreg.lastIndex);
+        linkEreg.lastIndex = 0;
+        continue;
+      }
+
       if (decoded.length != fullMatch.length) {
         let span = document.createElement('span');
   
