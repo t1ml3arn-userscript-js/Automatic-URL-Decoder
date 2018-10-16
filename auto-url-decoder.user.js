@@ -61,7 +61,6 @@
   
   function replaceAndStyleLink(node) {
     let match;
-    let offset = 0;
     let sibling = node;
     let content = node.textContent;
     while ((match = linkEreg.exec(content)) != null) {
