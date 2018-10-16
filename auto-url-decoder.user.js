@@ -86,13 +86,12 @@
         range.setEnd(sibling, linkEreg.lastIndex);
         range.surroundContents(span);
         
-        sibling = getNextTextSibling(span);
-        content = sibling.textContent;
+        content = content.substring(linkEreg.lastIndex);
         span.textContent = decoded;
         linkEreg.lastIndex = 0;
   
-        if (sibling == null)
-          break;
+        sibling = getNextTextSibling(span);
+        if (sibling == null)  break;
       }
     }
   }
