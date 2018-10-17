@@ -35,6 +35,7 @@
   // It allows to avoid  SyntaxError: '' is not a valid selector
   let blockedClassesSelector = `${DECODED_ELT_CLASS}`.split(' ').map(class_ => `.${class_}`).join(', ');
   let counter = 0;
+  let storeOriginalURL = false;
 
   // ----------------------------
   // CSS
@@ -109,6 +110,8 @@
       if (decoded.length != fullMatch.length) {
         let span = document.createElement('span');
         span.classList.add(DECODED_ELT_CLASS);
+
+        if (storeOriginalURL) span.dataset.urlDecOriginalUrl = fullMatch;
   
         let range = document.createRange();
         range.setStart(sibling, linkEreg.lastIndex - match[0].length);
@@ -119,7 +122,7 @@
         span.textContent = decoded;
         linkEreg.lastIndex = 0;
         counter++;
-        
+
         sibling = getNextTextSibling(span);
         if (sibling == null)  break;
       }
