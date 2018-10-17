@@ -34,6 +34,7 @@
   // if you need to make this variable "empty"
   // It allows to avoid  SyntaxError: '' is not a valid selector
   let blockedClassesSelector = `${DECODED_ELT_CLASS}`.split(' ').map(class_ => `.${class_}`).join(', ');
+  let counter = 0;
 
   // ----------------------------
   // CSS
@@ -61,9 +62,11 @@
   // ----------------------------
   
   let obs = new MutationObserver((changes, obs) => {
+    counter = 0;
     obs.disconnect();
     changes.forEach((change) => change.addedNodes.forEach((node) => fixLinks(node)) );
     obs.observe(document.body, obsOptions);
+    //console.log('[ URL  Decoder ] Decoded: ', counter);
   });
   
   function fixLinks(node) {
@@ -115,6 +118,7 @@
         content = content.substring(linkEreg.lastIndex);
         span.textContent = decoded;
         linkEreg.lastIndex = 0;
+        counter++;
         
         sibling = getNextTextSibling(span);
         if (sibling == null)  break;
@@ -133,6 +137,8 @@
   
   if (decodedNodeCSS != null) addStyle(decodedNodeCSS);
   
+  counter = 0;
   fixLinks(document.body);
+  //console.log('[ URL  Decoder ] Decoded: ', counter);
   obs.observe(document.body, obsOptions);
 })();
