@@ -1,11 +1,18 @@
 # Automatic URL decoder
 
+## Описание
+
 Скрипт автоматически декодирует нечитаемые ссылки вида [https://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%B8%D0%B2%D0%B5%D1%82,_%D0%BC%D0%B8%D1%80!](https://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%B8%D0%B2%D0%B5%D1%82,_%D0%BC%D0%B8%D1%80!) в удобочитаемое [https://ru.wikipedia.org/wiki/Привет,_мир!](https://ru.wikipedia.org/wiki/Привет,_мир!).
 
+## Демо
+
+Открыть Файл `demo.html`.
+
 ## Установка
+
 1. Установить одно из расширений [Violentmonkey](https://violentmonkey.github.io/get-it/), [Greasemonkey](https://www.greasespot.net), [Tampermonkey](https://tampermonkey.net/) для Вашего браузера.
 2. Установить скрипт по [этой ссылке](https://greasyfork.org/scripts/40305-automatic-url-decoder/code/Automatic%20URL%20Decoder.user.js).
 
-## Дополнительно
+## Cтилизация
 
-Скрипт дает возможность стилизовать исправленные ссылки. Изначально это отключено. Чтобы включить эту возможность, нужно в тексте скрипта найти переменную `changedLinkStyle` и присвоить ей хэш-таблицу `underlineStyle`. Для вступления изменений в силу требуется перезагрузить целевую страницу.
+Скрипт стилизует декодированные ссылки. Чтобы отключить стилизацию, нужно в коде скрипта найти переменную `changedLinkStyle` и присвоить ей `null`.
