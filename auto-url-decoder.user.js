@@ -13,9 +13,17 @@
 // ==/UserScript==
 
 (() => {
-  function isElementAllowed(elt) {
-    return blockedTagsList.indexOf(elt.tagName) == -1 && !elt.matches(blockedClassesSelector);
-  }
+  
+  const DECODED_ELT_CLASS = 'auto-url-decoder-s739';
+  
+  const underlineCss = `
+  .${DECODED_ELT_CLASS} {
+    border-bottom: 2px solid currentColor !important;
+    margin-bottom: -2px !important;
+  }`;
+  const CSS_greenBackground = getDefaultBackgroundCSS('#deffc3');
+  const CSS_redBackground = getDefaultBackgroundCSS('#fcd7d7');
+  const CSS_blueBackground = getDefaultBackgroundCSS('#d7ebfc');
 
   function addStyle(css) {
     const id = 'auto-url-decoder-style-elt'; 
@@ -24,21 +32,6 @@
     style.textContent = css;
   }
 
-  const DECODED_ELT_CLASS = 'auto-url-decoder-s739';
-  let linkEreg = /(?:[a-z][a-z0-9-+.]+:\/\/|www\.).+?(?=\s|$)/gi;
-  let linkEregLocal = /(?:[a-z][a-z0-9-+.]+:\/\/|www\.).+?(?=\s|$)/i;
-  let percentEncodingEreg = /%[a-f0-9]{2}/i;
-  let obsOptions = { childList: true, subtree: true };
-  let blockedTagsList = 'NOSCRIPT OPTION SCRIPT STYLE TEXTAREA SVG CANVAS BUTTON SELECT TEMPLATE METER PROGRESS MATH TIME HEAD CODE PRE'.split(' ');
-  ///NOTE Use 'foo' (or any other dummy class) in this selector
-  // if you need to make this variable "empty"
-  // It allows to avoid  SyntaxError: '' is not a valid selector
-  let blockedClassesSelector = `${DECODED_ELT_CLASS}`.split(' ').map(class_ => `.${class_}`).join(', ');
-  let counter = 0;
-  let storeOriginalURL = false;
-
-  // ----------------------------
-  // CSS
   function getDefaultBackgroundCSS(color) {
     return `
     .${DECODED_ELT_CLASS} {
@@ -48,28 +41,6 @@
     }`;
   }
 
-  const underlineCss = `
-  .${DECODED_ELT_CLASS} {
-    border-bottom: 2px solid currentColor !important;
-    margin-bottom: -2px !important;
-  }`;
-  const greenBackgroundCSS = getDefaultBackgroundCSS('#deffc3');
-  const redBackgroundCSS = getDefaultBackgroundCSS('#fcd7d7');
-  const blueBackgroundCSS = getDefaultBackgroundCSS('#d7ebfc');
-  // set one of style from above to enable 
-  // custom style for fixed links
-  let decodedNodeCSS = greenBackgroundCSS;
-  // CSS
-  // ----------------------------
-  
-  let obs = new MutationObserver((changes, obs) => {
-    counter = 0;
-    obs.disconnect();
-    changes.forEach((change) => change.addedNodes.forEach((node) => fixLinks(node)) );
-    obs.observe(document.body, obsOptions);
-    //console.log('[ URL  Decoder ] Decoded: ', counter);
-  });
-  
   function fixLinks(node) {
     if (node.nodeType === 3) {
       let content = node.textContent;
@@ -89,6 +60,10 @@
     } else if (node.nodeType === 1 && node.childNodes.length > 0 && isElementAllowed(node)) {
       node.childNodes.forEach(fixLinks);
     }
+  }
+  
+  function isElementAllowed(elt) {
+    return blockedTagsList.indexOf(elt.tagName) == -1 && !elt.matches(blockedClassesSelector);
   }
   
   function replaceAndStyleLink(node) {
@@ -137,6 +112,32 @@
     }
     return null;
   }
+
+  let linkEreg = /(?:[a-z][a-z0-9-+.]+:\/\/|www\.).+?(?=\s|$)/gi;
+  let linkEregLocal = /(?:[a-z][a-z0-9-+.]+:\/\/|www\.).+?(?=\s|$)/i;
+  let percentEncodingEreg = /%[a-f0-9]{2}/i;
+  let obsOptions = { childList: true, subtree: true };
+  let blockedTagsList = 'NOSCRIPT OPTION SCRIPT STYLE TEXTAREA SVG CANVAS BUTTON SELECT TEMPLATE METER PROGRESS MATH TIME HEAD CODE PRE'.split(' ');
+  
+  ///NOTE Use 'foo' (or any other dummy class) in this selector
+  // if you need to make this variable "empty"
+  // It allows to avoid  SyntaxError: '' is not a valid selector
+  let blockedClassesSelector = `${DECODED_ELT_CLASS}`.split(' ').map(class_ => `.${class_}`).join(', ');
+  
+  let counter = 0;
+  let storeOriginalURL = false;
+
+  // set one of style from above to enable 
+  // custom style for fixed links
+  let decodedNodeCSS = CSS_greenBackground;
+  
+  let obs = new MutationObserver((changes, obs) => {
+    counter = 0;
+    obs.disconnect();
+    changes.forEach((change) => change.addedNodes.forEach((node) => fixLinks(node)) );
+    obs.observe(document.body, obsOptions);
+    //console.log('[ URL  Decoder ] Decoded: ', counter);
+  });
   
   if (decodedNodeCSS != null) addStyle(decodedNodeCSS);
   
