@@ -6,7 +6,7 @@
 
 ## Демо
 
-Открыть Файл `demo.html`.
+Файл `demo.html`. Онлайн можно посмотреть [здесь](http://htmlpreview.github.io/?https://github.com/t1ml3arn-userscript-js/Automatic-URL-Decoder/blob/master/demo.html).
 
 ## Установка
 
