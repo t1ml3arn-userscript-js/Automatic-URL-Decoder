@@ -20,6 +20,11 @@
   
   const DECODED_ELT_CLASS = 'auto-url-decoder-s739';
   
+  // Predefined css styles for decoded links //
+  // To change css find `decodedNodeCSS` variable
+  // and set one of the style below to it.
+  // Set `null` to `decodedNodeCSS` to disable styling.
+
   const underlineCss = `
   .${DECODED_ELT_CLASS} {
     border-bottom: 2px solid currentColor !important;
@@ -28,6 +33,7 @@
   const CSS_greenBackground = getDefaultBackgroundCSS('#deffc3');
   const CSS_redBackground = getDefaultBackgroundCSS('#fcd7d7');
   const CSS_blueBackground = getDefaultBackgroundCSS('#d7ebfc');
+  // ----------- //
 
   function addStyle(css) {
     const id = 'auto-url-decoder-style-elt'; 
@@ -127,12 +133,9 @@
   // if you need to make this variable "empty"
   // It allows to avoid  SyntaxError: '' is not a valid selector
   let blockedClassesSelector = `${DECODED_ELT_CLASS}`.split(' ').map(class_ => `.${class_}`).join(', ');
-  
+
   let counter = 0;
   let storeOriginalURL = false;
-
-  // set one of style from above to enable 
-  // custom style for fixed links
   let decodedNodeCSS = CSS_greenBackground;
   
   let obs = new MutationObserver((changes, obs) => {
