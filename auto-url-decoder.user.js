@@ -9,7 +9,7 @@
 // @exclude https://github.com/t1ml3arn-userscript-js/Automatic-URL-Decoder
 // @exclude-match https://greasyfork.org/en/scripts/40305-automatic-url-decoder
 // @exclude https://greasyfork.org/en/scripts/40305-automatic-url-decoder
-// @version 2.1.1
+// @version 2.1.2
 // @run-at document-end
 // @license GPLv3
 // @supportURL https://github.com/T1mL3arn/Automatic-URL-Decoder/issues
